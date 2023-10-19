@@ -9,6 +9,11 @@ class Maze():
         #print(list(G.nodes))
         # List of nodes to be removed from graph
         self.obstacles = obstacles
+        self.positions = {}
+        self.set_positions()
+
+    def get_graph(self) -> nx.graph:
+        return self.grid
 
     def print_nodes(self):
         print(list(self.grid.nodes))
@@ -25,11 +30,10 @@ class Maze():
         for obstacle in self.obstacles:
             self.grid.remove_node(obstacle)
 
-    def visualise(self):
+    def set_positions(self):
         # graph visualisation
-        positions = {}
         for i in range(13):
             for j in range(13):
                 if (i,j) in self.grid.nodes:
-                    positions[(i,j)] = (5*i,5*(13-j))
-        nx.draw(self.grid, positions)
+                    self.positions[(i,j)] = (5*i,5*(13-j))
+        #return nx.draw(self.grid, positions)
