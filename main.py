@@ -37,18 +37,21 @@ class Main():
         # Run the root
         self.root.mainloop()
 
-    def submit_tuples(self) -> None:
-        """Takes single string input from entry, does basic check, sets obstacles for maze if success, else just warns user. Returns whether operation was succesful or not."""
+    def submit_tuples(self) -> bool:
+        """Takes single string input from entry, calls helper func, sets obstacles for maze if success and removes those nodes, else just warns user. Returns success/fail bool."""
         tuples_string = self.entry_tuple_list.get()
         success, tuple_list = self.cs_tuples(tuples_string)
         if(success):
             self.label_warning["text"] = "Submitting tuples was succesful!"
             self.maze.set_obstacles(tuple_list)
+            self.maze.remove_nodes()
         else:
             self.label_warning["text"] = "Failure to submit tuples. Check format and try again."
         self.label_warning.pack(side = tk.BOTTOM)
+        return success
     
     def cs_tuples(self,cs_tuple_string) -> (bool,[()]):
+        """Helper function, takes a string in the comma separated format with tuples x1 y1,x2 y2... and returns a tuple list."""
         if(cs_tuple_string == ""):
             return (False, [()])
         tuple_list =[]

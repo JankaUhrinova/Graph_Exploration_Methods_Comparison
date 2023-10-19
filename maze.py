@@ -33,11 +33,3 @@ class Maze():
                 if (i,j) in self.grid.nodes:
                     positions[(i,j)] = (5*i,5*(13-j))
         nx.draw(self.grid, positions)
-
-
-if __name__ == "__main__":
-    maze = Maze()
-    maze.set_obstacles()
-    maze.remove_nodes()
-    maze.visualise()
-    plt.show()
