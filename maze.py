@@ -28,12 +28,11 @@ class Maze():
 
     def remove_nodes(self):
         for obstacle in self.obstacles:
+            print(f">>> Removing node : {obstacle}")
             self.grid.remove_node(obstacle)
 
     def set_positions(self):
-        # graph visualisation
         for i in range(13):
             for j in range(13):
                 if (i,j) in self.grid.nodes:
                     self.positions[(i,j)] = (5*i,5*(13-j))
-        #return nx.draw(self.grid, positions)
