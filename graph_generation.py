@@ -7,12 +7,13 @@ import random
 from maze import Maze
 import networkx as nx
 
-class Main():
+class Generator():
     def __init__(self, number_of_graphs = 10, dimensions = (13,13)):
         self.number_of_graphs = number_of_graphs
         self.dimensions = dimensions
         self.mazes = self.generate_mazes()
         self.print_mazes()
+        self.create_csv('mazes.csv')
     
     def generate_mazes(self) -> []:
         mazes = []
@@ -48,12 +49,13 @@ class Main():
     def print_mazes(self):
         print(self.mazes)
 
-"""    def create_csv(self, filename):
+    def create_csv(self, filename):
         with open(filename, 'w') as f:
             write = csv.writer(f)
-            write"""
+            for maze in self.mazes:
+                write.writerow([f'{x[0]} {x[1]}' for x in maze])
 
         
 
 if __name__ == "__main__":
-    main = Main()
+    main = Generator()
