@@ -21,7 +21,7 @@ class Generator():
             feasible = False
             while(not feasible):
                 maze = self.generate_maze()
-                feasible = self.is_possible(maze)
+                feasible = nx.is_connected(maze.grid)
             mazes.append(maze.obstacles)
         return mazes
     
@@ -40,11 +40,6 @@ class Generator():
         maze = Maze(obstacles)
         maze.remove_nodes()
         return maze
-    
-    def is_possible(self, maze) -> False:
-        if len(list(nx.dfs_preorder_nodes(maze.grid))) == self.dimensions[0] * self.dimensions[1] - len(maze.obstacles):
-            return True
-        return False
     
     def print_mazes(self):
         print(self.mazes)
