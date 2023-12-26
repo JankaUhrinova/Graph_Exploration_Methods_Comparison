@@ -26,6 +26,7 @@ class Main():
         self.window_size_y = window_size_y
         self.maze = Maze()
         self.maze_dict = {}
+        self.maze_dict_size = 0
         self.curr_graph = 0
         # Set up root
         self.root = tk.Tk()
@@ -59,8 +60,12 @@ class Main():
         # CSV input frame element creation
         self.button_inputcsv = tk.Button(self.frame_input_csv, text = "Input graph from CSV.", command=self.open_csv_input)
         self.button_inputcsv.pack(side = tk.LEFT)
-        self.button_next = tk.Button(self.frame_input_csv, text="<-", command=None)
-        self.button_next = tk.Button(self.frame_input_csv, text="->", command=None)
+        self.button_prev = tk.Button(self.frame_input_csv, text="<-", command=self.prev_graph)
+        self.button_prev.pack(side=tk.LEFT)
+        self.button_next = tk.Button(self.frame_input_csv, text="->", command=self.next_graph)
+        self.button_next.pack(side=tk.LEFT)
+        self.label_curr_graph = tk.Label(self.frame_input_csv, text=self.curr_graph)
+        self.label_curr_graph.pack(side=tk.LEFT)
         # Maze frame element creation
         self.label_maze = tk.Label(self.frame_maze, text="Mousemaze graph.")
         self.label_maze.pack()
@@ -104,6 +109,8 @@ class Main():
                 line = lines[i].strip().split(',')
                 new_line = list(map(lambda a : tuple(map(lambda b : int(b), a.split(" "))), line))
                 self.maze_dict[i+offset] = new_line
+        # Set the size of the dict, so we don't have to do this constantly
+        self.maze_dict_size = len(self.maze_dict)
         # Draw the initial graph at key 0
         self.maze.set_obstacles(self.maze_dict[0])
         self.maze.remove_nodes()
@@ -136,7 +143,7 @@ class Main():
         self.maze_canvas.draw()
         self.maze_canvas.get_tk_widget().pack()
     
-    def switch_input_frame(self):
+    def switch_input_frame(self) -> None:
         if(self.radio_value.get() == 1):
             self.frame_input_csv.grid_forget()
             self.frame_input_manual.grid(row=1)
@@ -144,10 +151,23 @@ class Main():
             self.frame_input_manual.grid_forget()
             self.frame_input_csv.grid(row=1)
     
-    def next_graph(self):
-        return None
+    def next_graph(self) -> None:
+        self.curr_graph = (self.curr_graph + 1) % self.maze_dict_size
+        self.label_curr_graph.config(text = self.curr_graph)
+        self.maze = Maze()
+        self.maze.set_obstacles(self.maze_dict[self.curr_graph])
+        self.maze.remove_nodes()
+        self.draw_graph()
+    
+    def prev_graph(self) -> None:
+        self.curr_graph = (self.curr_graph - 1) % self.maze_dict_size
+        self.label_curr_graph.config(text = self.curr_graph)
+        self.maze = Maze()
+        self.maze.set_obstacles(self.maze_dict[self.curr_graph])
+        self.maze.remove_nodes()
+        self.draw_graph()
 
-    def new_graph(self):
+    def new_graph(self) -> None:
         self.maze = Maze()
         self.draw_graph()
 
