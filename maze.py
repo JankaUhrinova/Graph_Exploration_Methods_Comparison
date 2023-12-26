@@ -6,6 +6,8 @@ class Maze():
     def __init__(self, obstacles = [()]):
         # graph creation - taking width and height as parameters
         self.grid = nx.grid_2d_graph(13,13)
+        # Creates a node value of visits for all nodes, and sets this to 0 as a start
+        nx.set_node_attributes(self.grid, 0, "visits")
         #print(list(G.nodes))
         # List of nodes to be removed from graph
         self.obstacles = obstacles
@@ -19,6 +21,10 @@ class Maze():
 
     def print_nodes(self):
         print(list(self.grid.nodes))
+    
+    def print_node_visits(self, node):
+        print("Test")
+        print(self.grid.nodes[node]["visits"])
 
     def set_obstacles(self, tuples):
         # the list of nodes that should be deleted 
@@ -30,7 +36,6 @@ class Maze():
 
     def remove_nodes(self):
         for obstacle in self.obstacles:
-            print(f">>> Removing node : {obstacle}")
             self.grid.remove_node(obstacle)
 
     def set_positions(self):

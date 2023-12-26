@@ -111,6 +111,7 @@ class Main():
                 self.maze_dict[i+offset] = new_line
         # Set the size of the dict, so we don't have to do this constantly
         self.maze_dict_size = len(self.maze_dict)
+        self.curr_graph = 0
         # Draw the initial graph at key 0
         self.maze.set_obstacles(self.maze_dict[0])
         self.maze.remove_nodes()
