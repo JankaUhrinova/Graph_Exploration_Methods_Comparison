@@ -11,6 +11,8 @@ class Maze():
         self.obstacles = obstacles
         self.positions = {}
         self.set_positions()
+        self.visited = self.set_visited()
+
 
     def get_graph(self) -> nx.graph:
         return self.grid
@@ -36,3 +38,15 @@ class Maze():
             for j in range(13):
                 if (i,j) in self.grid.nodes:
                     self.positions[(i,j)] = (5*i,5*(13-j))
+
+    def set_visited(self) -> {}:
+        visited = {}
+        for n in self.grid:
+            visited[n] = 0
+        return visited
+    
+    def update_visit(self, n):
+        self.visited[n] += 1
+    
+    def get_visited(self) -> {}:
+        return self.visited
