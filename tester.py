@@ -12,7 +12,7 @@ class Tester():
     def update_position(self) -> False:
         self.position = self.algorithm.next_step(self.maze, self.position)
         self.turns += 1
-        if self.position == (12, 12):
+        if self.position == (12, 0):
             return True
         
     def run_test(self) -> None:
