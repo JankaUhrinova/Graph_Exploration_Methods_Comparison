@@ -34,11 +34,10 @@ class Generator():
             while((x,y) in obstacles):
                 x = random.randint(0, self.dimensions[0] - 1)
                 y = random.randint(0, self.dimensions[1] - 1)
-            if (x == 0 and y == 0) or (x == self.dimensions[0] - 1 and y == self.dimensions[1] - 1):
-                pass
+            if (x == 0 and y == 0) or (x == 0 and y == self.dimensions[1] - 1):
+                continue
             obstacles.append((x,y))
         maze = Maze(obstacles)
-        maze.remove_nodes()
         return maze
     
     def print_mazes(self):
