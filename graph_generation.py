@@ -8,9 +8,9 @@ from maze import Maze
 import networkx as nx
 
 class Generator():
-    def __init__(self, number_of_graphs = 10, dimensions = (13,13)):
+    def __init__(self, number_of_graphs = 10, size = 13):
         self.number_of_graphs = number_of_graphs
-        self.dimensions = dimensions
+        self.size = size
         self.mazes = self.generate_mazes()
         self.print_mazes()
         self.create_csv('mazes.csv')
@@ -26,18 +26,18 @@ class Generator():
         return mazes
     
     def generate_maze(self) -> None:
-        num_obstacles = random.randint(1, 30)
+        num_obstacles = random.randint(1,int((self.size**2)*0.7))
         obstacles = []
         for i in range(num_obstacles):
-            x = random.randint(0, self.dimensions[0] - 1)
-            y = random.randint(0, self.dimensions[1] - 1)
+            x = random.randint(0, self.size - 1)
+            y = random.randint(0, self.size - 1)
             while((x,y) in obstacles):
-                x = random.randint(0, self.dimensions[0] - 1)
-                y = random.randint(0, self.dimensions[1] - 1)
-            if (x == 0 and y == 0) or (x == 0 and y == self.dimensions[1] - 1):
+                x = random.randint(0, self.size - 1)
+                y = random.randint(0, self.size - 1)
+            if (x == 0 and y == 0) or (x == 0 and y == self.size - 1):
                 continue
             obstacles.append((x,y))
-        maze = Maze(obstacles)
+        maze = Maze(obstacles, self.size)
         return maze
     
     def print_mazes(self):
@@ -52,4 +52,5 @@ class Generator():
         
 
 if __name__ == "__main__":
-    main = Generator()
+    size = int(input("What is the size of the mazes you want to generate? "))
+    main = Generator(size = size)

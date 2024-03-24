@@ -3,9 +3,10 @@ import matplotlib.pyplot as plt
 from typing import List, Tuple
 class Maze():
     """Class that initiates a 13 by 13 graph/grid."""
-    def __init__(self, obstacles:List[Tuple[int, int]] = []):
+    def __init__(self, obstacles:List[Tuple[int, int]] = [], size = 13):
+        self.size = size
         # graph creation - taking width and height as parameters
-        self.grid = nx.grid_2d_graph(13,13)
+        self.grid = nx.grid_2d_graph(size,size)
         self.obstacles = obstacles
         self.remove_nodes()
         # Creates a node value of visits for all nodes, and sets this to 0 as a start
@@ -16,6 +17,9 @@ class Maze():
         self.positions = self.set_positions()
         self.visited = self.set_visited()
 
+    def set_size(self, size):
+        self.grid = nx.grid_2d_graph(size,size)
+        self.positions = self.set_positions()
 
     def get_graph(self) -> nx.graph:
         return self.grid
@@ -42,10 +46,10 @@ class Maze():
 
     def set_positions(self):
         positions = {}
-        for i in range(13):
-            for j in range(13):
+        for i in range(self.size):
+            for j in range(self.size):
                 if (i,j) in self.grid.nodes:
-                    positions[(i,j)] = (5*i,5*(13-j))
+                    positions[(i,j)] = (5*i,5*(self.size-j))
         return positions
 
     def set_visited(self) -> {}:

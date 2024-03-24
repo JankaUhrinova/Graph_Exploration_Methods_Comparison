@@ -1,0 +1,15 @@
+TODO
+
+- maze scaling option
+- DFS algorithm
+- A* (not really) part1
+- A* (not really) part2
+- poopravovat chyby od Jess
+- vygenerovat specificke mazes
+- pipeline ktora bezi viacere algoritmy na viacerych mazes a spravi porovnanie
+- results representation and storage - visualisationß
+
+Otazky na Jess:
+-Co je ten moj A* teda zac? 
+
+

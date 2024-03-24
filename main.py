@@ -17,14 +17,15 @@ class Main():
     """
     A main class responsible for creating a GUI window that wraps around our maze, so that it can be shown in tkinter.
     """
-    def __init__ (self, window_size_x = "650", window_size_y = "650"):
+    def __init__ (self, window_size_x = "650", window_size_y = "650", maze_size = 13):
         """
         Constructor for main.
         """
         # Set up some variables
+        self.maze_size = maze_size
         self.window_size_x = window_size_x
         self.window_size_y = window_size_y
-        self.maze = Maze()
+        self.maze = Maze(size = self.maze_size)
         self.maze_dict = {}
         self.maze_dict_size = 0
         self.curr_graph = 0
@@ -80,7 +81,7 @@ class Main():
     def submit_tuples(self) -> None:
         """On button click: Takes single string input from entry, calls helper func, sets obstacles for maze if success and removes those nodes, else just warns user."""
         if(not self.maze):
-           self.maze = Maze()
+           self.maze = Maze(size = self.maze_size)
         tuples_string = self.entry_tuple_list.get()
         success, tuple_list = self.cs_tuples(tuples_string)
         if(success):
@@ -139,7 +140,8 @@ class Main():
         figure = plt.figure(figsize=(5,5))
         a = figure.add_subplot(111)
         plt.axis('off')
-        nx.draw(self.maze.get_graph(), self.maze.positions, ax=a)
+        nx.draw(self.maze.get_graph(), self.maze.positions, ax=a, node_size = int(self.window_size_x)//self.maze_size)
+
         self.maze_canvas = FigureCanvasTkAgg(figure, master = self.frame_maze)
         self.maze_canvas.draw()
         self.maze_canvas.get_tk_widget().pack()
@@ -155,7 +157,7 @@ class Main():
     def next_graph(self) -> None:
         self.curr_graph = (self.curr_graph + 1) % self.maze_dict_size
         self.label_curr_graph.config(text = self.curr_graph)
-        self.maze = Maze()
+        self.maze = Maze(size = self.maze_size)
         self.maze.set_obstacles(self.maze_dict[self.curr_graph])
         self.maze.remove_nodes()
         self.draw_graph()
@@ -163,13 +165,13 @@ class Main():
     def prev_graph(self) -> None:
         self.curr_graph = (self.curr_graph - 1) % self.maze_dict_size
         self.label_curr_graph.config(text = self.curr_graph)
-        self.maze = Maze()
+        self.maze = Maze(size = self.maze_size)
         self.maze.set_obstacles(self.maze_dict[self.curr_graph])
         self.maze.remove_nodes()
         self.draw_graph()
 
     def new_graph(self) -> None:
-        self.maze = Maze()
+        self.maze = Maze(size = self.maze_size)
         self.draw_graph()
 
     def close(self):
@@ -178,4 +180,5 @@ class Main():
 
 
 if __name__ == "__main__":
-    main = Main()
+    size = int(input("What is the size of displayed mazes? "))
+    main = Main(maze_size = size)
