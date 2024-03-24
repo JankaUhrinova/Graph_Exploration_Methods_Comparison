@@ -1,11 +1,13 @@
 from maze import Maze
 from tester import Tester
-from base_test import BaseAlgorithm
+from original_solver import OriginalSolver
 from graph_generation import Generator
 
-algorithm = BaseAlgorithm()
-maze = Maze([(3, 6),(1, 10),(7, 9),(3, 0),(4, 2),(2, 8),(6, 5),(3, 2),(6, 12),(5, 5),(1, 1),(0, 1)])
-tester = Tester(maze, algorithm)
+maze = Maze(size = 13, obstacles = [(3, 6),(1, 10),(7, 9),(3, 0),(4, 2),(2, 8),(6, 5),(3, 2),(6, 12),(5, 5),(1, 1),(0, 1)])
+original_solver = OriginalSolver(maze = maze)
+tester = Tester()
 
-print(tester.get_results())
+tester.run_test(original_solver)
+
+print(tester.get_trace())
 

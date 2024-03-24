@@ -1,9 +1,24 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from typing import List, Tuple
+from pydantic import BaseModel
+from collections import defaultdict
+
+class Position(BaseModel):
+    x: int
+    y: int
+    def __init__(self, x: int, y: int, **kwargs) -> None:
+        super(Position, self).__init__(x=x,y=y,**kwargs)
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+    
+    def to_tuple(self):
+        return((self.x, self.y))
+
 class Maze():
     """Class that initiates a 13 by 13 graph/grid."""
-    def __init__(self, obstacles:List[Tuple[int, int]] = [], size = 13):
+    def __init__(self, size, obstacles:List[Tuple[int, int]] = [] ):
         self.size = size
         # graph creation - taking width and height as parameters
         self.grid = nx.grid_2d_graph(size,size)
@@ -15,11 +30,9 @@ class Maze():
         # List of nodes to be removed from graph
         
         self.positions = self.set_positions()
-        self.visited = self.set_visited()
+        self.visited = defaultdict(lambda: 0)
 
-    def set_size(self, size):
-        self.grid = nx.grid_2d_graph(size,size)
-        self.positions = self.set_positions()
+        self.end_position = Position(0, self.size - 1)
 
     def get_graph(self) -> nx.graph:
         return self.grid
@@ -52,18 +65,12 @@ class Maze():
                     positions[(i,j)] = (5*i,5*(self.size-j))
         return positions
 
-    def set_visited(self) -> {}:
-        visited = {}
-        for n in self.grid:
-            visited[n] = 0
-        return visited
     
-    def update_visit(self, n):
-        self.visited[n] += 1
+    def update_visit(self, p: Position):
+        self.visited[p] += 1
     
-    def get_visited(self) -> {}:
+    def get_visited(self):
         return self.visited
     
-    def check_visited(self, node) -> 0:
-        if node in list(self.visited.keys()):
-            return self.visited[node]
+    def check_visited(self, p: Position) -> int:
+        return self.visited[p]

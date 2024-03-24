@@ -1,23 +1,24 @@
-class Tester():
-    def __init__(self, maze, algorithm) -> None:
-        self.maze = maze
-        self.algorithm = algorithm
-        self.position = (0, 0)
-        self.turns = 0
+from base_solver import BaseSolver
+from maze import Position
+from typing import List
 
-    def get_results(self) -> 0:
-        self.run_test()
+class Tester():
+
+    def __init__(self) -> None:
+        self.turns = 0
+        self.trace = []
+
+    def run_test(self, solver: BaseSolver) -> None:
+            self.turns = 0
+            self.trace = solver.solve()
+            self.turns = len(self.trace)
+
+
+    def get_turns(self) -> int:
         return self.turns
     
-    def update_position(self) -> False:
-        self.maze.update_visit(self.position)
-        self.position = self.algorithm.next_step(self.maze, self.position)
-        self.turns += 1
-        if self.position == (0, 12):
-            return True
-        
-    def run_test(self) -> None:
-        done = False
-        while not done:
-            done = self.update_position()
+    def get_trace(self) -> List[Position]:
+        return self.trace
+
+    
         

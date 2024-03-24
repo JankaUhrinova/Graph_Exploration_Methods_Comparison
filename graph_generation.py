@@ -37,7 +37,7 @@ class Generator():
             if (x == 0 and y == 0) or (x == 0 and y == self.size - 1):
                 continue
             obstacles.append((x,y))
-        maze = Maze(obstacles, self.size)
+        maze = Maze(self.size, obstacles)
         return maze
     
     def print_mazes(self):
