@@ -30,7 +30,7 @@ class A_solver_1(BaseSolver):
         while(self.maze.check_visited(goal) != 0):
             goal = self.heap.get()[1]
 
-        self.trace.append(self.transport(goal))
+        self.trace += self.transport(goal)
         return goal
 
     
@@ -46,14 +46,14 @@ class A_solver_1(BaseSolver):
         # Perform BFS
         while queue:
             cell, path = queue.popleft()
-            if cell == goal:
-                path = path[:-1]
-                return path
-            
             x_pos = cell.x
             y_pos = cell.y
-
+            #go through all neighbors of the cell to see if there is goal node
             directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
+            for i in range(len(directions)):
+                node = Position(x_pos + directions[i][0], y_pos + directions[i][1])
+                if node == goal:
+                    return path
 
             for i in range(len(directions)):
                 node = Position(x_pos + directions[i][0], y_pos + directions[i][1])
@@ -61,13 +61,13 @@ class A_solver_1(BaseSolver):
                     num_visited = self.maze.check_visited(node)
                     if(num_visited != 0 and node.to_tuple() not in visited):
                         new_path = path + [node]
-                        queue.append(node, new_path)
+                        queue.append((node, new_path))
                         visited.add(node.to_tuple())
 
     
-    def put_neighbors_in_heap(self, cell: Position):
-        x_pos = cell.x
-        y_pos = cell.y
+    def put_neighbors_in_heap(self):
+        x_pos = self.position.x
+        y_pos = self.position.y
 
         directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
 
@@ -77,13 +77,14 @@ class A_solver_1(BaseSolver):
                 num_visited = self.maze.check_visited(node)
                 distance_from_finish = abs(self.maze.end_position.x - node.x) + abs(self.maze.end_position.y - node.y) 
                 if(num_visited == 0):
-                    self.heap.put(distance_from_finish, cell)
+                    self.heap.put((distance_from_finish, node))
 
     
     def solve(self):
         while self.position != self.maze.end_position:
+            print(self.position.x, self.position.y)
             self.maze.update_visit(self.position)
-            self.put_neighbors_in_heap(self.position)
+            self.put_neighbors_in_heap()
             self.position = self.next_step()
             self.trace.append(self.position)
         return self.trace
