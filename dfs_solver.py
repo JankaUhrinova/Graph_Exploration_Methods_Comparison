@@ -6,7 +6,7 @@ from typing import List, Any
 
 class DFSSolver(BaseSolver):
     
-    stack: List[Position] = []
+    stack: List[Position] = [(Position(0,0))]
 
     def next_step(self):
         x_pos = self.position.x
@@ -17,37 +17,28 @@ class DFSSolver(BaseSolver):
         # [number of times the neighbor was visited, index representing direction (for breaking ties), coordinates of a neighbor]
         # always check, if the neighbor exists first
 
-        node = Position(x_pos, y_pos + 1) #going down
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            if(num_visited == 0):
-                return node
+        directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
 
-        node = Position(x_pos - 1, y_pos) #going left
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            if(num_visited == 0):
-                return node
+        for i in range(len(directions)):
+            node = Position(x_pos + directions[i][0], y_pos + directions[i][1])
+            if self.maze.grid.has_node(node.to_tuple()): 
+                num_visited = self.maze.check_visited(node)
+                if(num_visited == 0):
+                    return node
         
-        node = Position(x_pos + 1, y_pos) #going right
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            if(num_visited == 0):
-                return node
-
-        node = Position(x_pos, y_pos - 1) #going up
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            if(num_visited == 0):
-                return node
-
-        
-        return self.stack.pop()
+        return -1
     
     def solve(self):
         while self.position != self.maze.end_position:
-            self.stack.append(self.position)
             self.maze.update_visit(self.position)
-            self.position = self.next_step()
+            # print(self.position.x, self.position.y)
+            new_position = self.next_step()
+            if new_position == -1:
+                self.stack.pop()
+                self.position = self.stack[-1]
+            else:
+                self.stack.append(new_position)
+                self.position = new_position
+            
             self.trace.append(self.position)
         return self.trace
