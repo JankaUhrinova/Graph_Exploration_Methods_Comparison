@@ -20,25 +20,13 @@ class OriginalSolver(BaseSolver):
         # [number of times the neighbor was visited, index representing direction (for breaking ties), coordinates of a neighbor]
         # always check, if the neighbor exists first
 
-        node = Position(x_pos, y_pos + 1) #going down
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            neighbors.append([num_visited, 0, node])
+        directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
 
-        node = Position(x_pos - 1, y_pos) #going left
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            neighbors.append([num_visited, 1, node])
-        
-        node = Position(x_pos + 1, y_pos) #going right
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            neighbors.append([num_visited, 2, node])
-
-        node = Position(x_pos, y_pos - 1) #going up
-        if self.maze.grid.has_node(node.to_tuple()): 
-            num_visited = self.maze.check_visited(node)
-            neighbors.append([num_visited, 3, node])
+        for i in range(len(directions)):
+            node = Position(x_pos + directions[i][0], y_pos + directions[i][1])
+            if self.maze.grid.has_node(node.to_tuple()): 
+                num_visited = self.maze.check_visited(node)
+                neighbors.append([num_visited, i, node])
 
         priority = sorted(neighbors, key = itemgetter(0, 1))
         print(x_pos, y_pos)

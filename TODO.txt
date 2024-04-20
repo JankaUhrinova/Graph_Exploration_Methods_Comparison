@@ -1,13 +1,15 @@
 TODO
 
-- maze scaling option
-- DFS algorithm
-- A* (not really) part1
-- A* (not really) part2
+- maze scaling option - done
+- DFS algorithm - done
+- A* (not really) part1- done
+- A* (not really) part2 - done
+- tester checking if the trace really is a solution to a maze - done
+- fisni, aby A_star_2 nebezalo bfsko pre kazdy vrchol, ale vratilo dictionary so vzdialenostami 
 - poopravovat chyby od Jess
 - vygenerovat specificke mazes
 - pipeline ktora bezi viacere algoritmy na viacerych mazes a spravi porovnanie
-- results representation and storage - visualisationß
+- results representation and storage - visualisation
 
 Otazky na Jess:
 -Co je ten moj A* teda zac? 

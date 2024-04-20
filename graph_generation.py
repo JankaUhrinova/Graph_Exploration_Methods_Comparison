@@ -15,7 +15,7 @@ class Generator():
         self.print_mazes()
         self.create_csv('mazes.csv')
     
-    def generate_mazes(self) -> []:
+    def generate_mazes(self):
         mazes = []
         for i in range(self.number_of_graphs):
             feasible = False

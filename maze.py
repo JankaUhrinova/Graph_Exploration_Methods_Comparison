@@ -15,20 +15,20 @@ class Position(BaseModel):
     
     def to_tuple(self):
         return((self.x, self.y))
+    
+    def __lt__(self, comp: "Position"):
+        return False
 
 class Maze():
-    """Class that initiates a 13 by 13 graph/grid."""
+    """Class that initiates a graph/grid."""
     def __init__(self, size, obstacles:List[Tuple[int, int]] = [] ):
         self.size = size
         # graph creation - taking width and height as parameters
         self.grid = nx.grid_2d_graph(size,size)
         self.obstacles = obstacles
-        self.remove_nodes()
-        # Creates a node value of visits for all nodes, and sets this to 0 as a start
-        nx.set_node_attributes(self.grid, 0, "visits")
+        self.remove_nodes()\
         #print(list(G.nodes))
         # List of nodes to be removed from graph
-        
         self.positions = self.set_positions()
         self.visited = defaultdict(lambda: 0)
 
@@ -41,7 +41,6 @@ class Maze():
         print(list(self.grid.nodes))
     
     def print_node_visits(self, node):
-        print("Test")
         print(self.grid.nodes[node]["visits"])
 
     def set_obstacles(self, tuples):
@@ -54,7 +53,7 @@ class Maze():
 
     def remove_nodes(self):
         for obstacle in self.obstacles:
-            print(obstacle)
+            #print(obstacle)
             self.grid.remove_node(obstacle)
 
     def set_positions(self):
