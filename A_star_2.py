@@ -117,7 +117,7 @@ class A_solver_2(BaseSolver):
 
     def solve(self):
         while self.position != self.maze.end_position:
-            print(self.position.x, self.position.y)
+            # print(self.position.x, self.position.y)
             self.maze.update_visit(self.position)
             self.put_neighbors_in_list()
             self.position = self.next_step()

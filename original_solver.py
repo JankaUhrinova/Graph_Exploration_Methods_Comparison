@@ -29,8 +29,8 @@ class OriginalSolver(BaseSolver):
                 neighbors.append([num_visited, i, node])
 
         priority = sorted(neighbors, key = itemgetter(0, 1))
-        print(x_pos, y_pos)
-        print(priority)
+        # print(x_pos, y_pos)
+        # print(priority)
         return (priority[0][2]) #return next position
     
     def solve(self):

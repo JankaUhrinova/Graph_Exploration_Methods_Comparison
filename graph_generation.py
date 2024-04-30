@@ -6,6 +6,7 @@ import csv
 import random
 from maze import Maze
 import networkx as nx
+from typing import List
 
 class Generator():
     def __init__(self, number_of_graphs = 10, size = 13):
@@ -26,7 +27,8 @@ class Generator():
         return mazes
     
     def generate_maze(self) -> None:
-        num_obstacles = random.randint(1,int((self.size**2)*0.7))
+        num_nodes = self.size**2
+        num_obstacles = random.randint(int(num_nodes*0.1),int(num_nodes*0.2))
         obstacles = []
         for i in range(num_obstacles):
             x = random.randint(0, self.size - 1)
@@ -48,6 +50,13 @@ class Generator():
             write = csv.writer(f)
             for maze in self.mazes:
                 write.writerow([f'{x[0]} {x[1]}' for x in maze])
+
+    def get_maze_objects(self) -> List[Maze]: 
+        mazes = []
+        for maze in self.mazes:
+            mazes.append(Maze(size = self.size, obstacles = maze))
+        return mazes
+
 
         
 

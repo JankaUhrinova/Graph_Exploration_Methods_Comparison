@@ -26,7 +26,7 @@ class Maze():
         # graph creation - taking width and height as parameters
         self.grid = nx.grid_2d_graph(size,size)
         self.obstacles = obstacles
-        self.remove_nodes()\
+        self.remove_nodes()
         #print(list(G.nodes))
         # List of nodes to be removed from graph
         self.positions = self.set_positions()
